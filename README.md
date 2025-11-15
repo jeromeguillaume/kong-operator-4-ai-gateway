@@ -1,9 +1,15 @@
 # Material for Kong Operator and Kong AI Gateway
-See below 2 templates for deploying the Kong AI Gateway. **There is no difference in terms of plugins capabilities between the two deployments**
+See below 2 templates for deploying the Kong AI Gateway. **There is no difference in terms of plugins capabilities between the two deployments**. Both deployments can be deployed in the same cluster and managed by the same Kong Operator.
+
+The Namespaces are for:
+- Kong Operator: `kong-system`
+- Hybrid DP: `kong`
+- Ingress: `kong-ingress`
 
 ## Prerequisite: deploy the Kong Operator
-Only apply the `prerequisites` part in the [Kong Operator](https://developer.konghq.com/operator/konnect/crd/control-planes/hybrid/#prerequisites) documentation.
-Note: do not create the `KonnectAPIAuthConfiguration`: it's done later
+- Apply only the `prerequisites` part in the [Kong Operator](https://developer.konghq.com/operator/konnect/crd/control-planes/hybrid/#prerequisites) documentation.
+  - Note: do not create the `KonnectAPIAuthConfiguration` because it's done later
+- Install the CRDs for [`Gateway API`](https://developer.konghq.com/operator/dataplanes/get-started/kic/install/#install-crds)
 
 ## Template for Hybrid DP
 It delivers a read/write Control Plane in Konnect. The configuration is based on the following CRD Kinds:
@@ -21,11 +27,11 @@ The material is here: [template-hybrid-dp](/template-hybrid-dp)
   - Replace in `0-pat-secret.yaml` the `***TO_BE_REPLACED***` by your base64 token value
   - Replace in `4-kongService-Gemini.yaml`  the `***_TO_BE_REPLACED_***` by your Gemini key value
   - Apply the kubernetes yaml files one by one
-  - Get the Public IP address of the DP (`kubectl -n kong get svc`)
-  - Do a Gemini prompt test:
+  - Get the Public IP address of the DP (`kubectl -n kong get svc`) and export the value in `PROXY_HYBRID_CP`
+  - Execute a Gemini prompt:
   ```shell
   curl --request POST \
-  --url http://W.X.Y.Z/gemini/api/v1 \
+  --url http://$PROXY_HYBRID_CP/gemini/api/v1 \
   --header 'Content-Type: application/json' \
   --header 'x-llm: gemini4' \
   --data '{
@@ -60,16 +66,16 @@ annotations:
 
 The documentation is here: [Ingress for Konnect](https://developer.konghq.com/operator/dataplanes/get-started/kic/create-gateway/#kong-konnect)
 
-### How to deploy the Hybrid DP
+### How to deploy the Ingress
 The material is here: [template-ingress](/template-ingress)
   - Replace in `0-pat-secret.yaml` the `***TO_BE_REPLACED***` by your base64 token value
   - Replace in `4-kongService-Gemini.yaml`  the `***_TO_BE_REPLACED_***` by your Gemini key value
   - Apply the kubernetes yaml files one by one
-  - Get the Public IP address of the DP (`kubectl -n kong-ingress get svc`)
-  - Do a Gemini prompt test:
+  - Get the Public IP address of the DP (`kubectl -n kong-ingress get svc`) and export the value in `PROXY_INGRESS`
+  - Execute a Gemini prompt:
   ```shell
   curl --request POST \
-  --url http://W.X.Y.Z/gemini/api/v1 \
+  --url http://$PROXY_INGRESS/gemini/api/v1 \
   --header 'Content-Type: application/json' \
   --header 'x-llm: gemini4' \
   --data '{
