@@ -1,5 +1,5 @@
-# Material for Kong Operator and Kong AI Gateway
-See below 2 templates for deploying the Kong AI Gateway. **There is no difference in terms of plugins capabilities between the two deployments**. Both deployments can be deployed in the same cluster and managed by the same Kong Operator.
+# Konnect Material for Kong Operator and Kong AI Gateway
+See below 2 templates for deploying the Kong AI Gateway in Konnect. **There is no difference in terms of plugins capabilities between the two deployments**. Both deployments can be deployed in the same cluster and managed by the same Kong Operator.
 
 The Namespaces are for:
 - Kong Operator: `kong-system`
