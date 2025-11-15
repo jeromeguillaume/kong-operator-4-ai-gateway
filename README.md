@@ -13,7 +13,7 @@ It delivers a read/write Control Plane in Konnect. The configuration is based on
 The documentation is here: [Hybrid DP for Konnect](https://developer.konghq.com/operator/dataplanes/get-started/hybrid/install/)
 
 ### How to deploy the Hybrid DP
-The material is here: [template-hybrid-dp](/kong-operator-4-ai-gateway/template-hybrid-dp/)
+The material is here: [template-hybrid-dp](/template-hybrid-dp)
   - Replace in `0-pat-secret.yaml` the `***TO_BE_REPLACED***` by your base64 token value
   - Replace in `4-kongService-Gemini.yaml`  the `***_TO_BE_REPLACED_***` by your Gemini key value
   - Apply the kubernetes yaml files one by one
@@ -57,7 +57,7 @@ annotations:
 The documentation is here: [Ingress for Konnect](https://developer.konghq.com/operator/dataplanes/get-started/kic/create-gateway/#kong-konnect)
 
 ### How to deploy the Hybrid DP
-The material is here: [template-ingress](/kong-operator-4-ai-gateway/template-ingress/)
+The material is here: [template-ingress](/template-ingress)
   - Replace in `0-pat-secret.yaml` the `***TO_BE_REPLACED***` by your base64 token value
   - Replace in `4-kongService-Gemini.yaml`  the `***_TO_BE_REPLACED_***` by your Gemini key value
   - Apply the kubernetes yaml files one by one
