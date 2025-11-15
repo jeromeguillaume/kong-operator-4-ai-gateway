@@ -81,3 +81,6 @@ The material is here: [template-ingress](/template-ingress)
 	]
   }'
   ```
+
+## Konnect - API Gateway managed by the Kong Operator
+![Alt text](/images/1-konnect-gw-manager.png?raw=true "Konnect - API Gateway managed by the Kong Operator")
