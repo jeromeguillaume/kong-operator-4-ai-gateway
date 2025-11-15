@@ -1,0 +1,12 @@
+kind: KonnectAPIAuthConfiguration
+apiVersion: konnect.konghq.com/v1alpha1
+metadata:
+  name: konnect-api-auth
+  namespace: kong
+spec:
+  type: secretRef
+  secretRef: 
+    name: kgo-konnect-secret
+  #type: token
+  #token: kpat_*****TOKEN*****
+  serverURL: me.api.konghq.com

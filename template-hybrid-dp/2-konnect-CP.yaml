@@ -1,0 +1,11 @@
+kind: KonnectGatewayControlPlane
+apiVersion: konnect.konghq.com/v1alpha2
+metadata:
+  name: cp-kong-operator-hybrid-dp
+  namespace: kong
+spec:
+  createControlPlaneRequest:
+    name: cp-kong-operator-hybrid-dp
+  konnect:
+    authRef:
+      name: konnect-api-auth # Reference to the KonnectAPIAuthConfiguration object

@@ -1,0 +1,62 @@
+kind: KonnectExtension
+apiVersion: konnect.konghq.com/v1alpha2
+metadata:
+  name: my-konnect-config
+  namespace: kong-ingress
+spec:
+  clientAuth:
+    certificateSecret:
+      provisioning: Automatic
+  konnect:
+    controlPlane:
+      ref:
+        type: konnectNamespacedRef
+        konnectNamespacedRef:
+          name: cp-kong-operator-ingress
+---
+kind: GatewayConfiguration
+apiVersion: gateway-operator.konghq.com/v2beta1
+metadata:
+  name: kong
+  namespace: kong-ingress
+spec:
+  extensions:
+  - kind: KonnectExtension
+    name: my-konnect-config
+    group: konnect.konghq.com
+  dataPlaneOptions:
+    deployment:
+      replicas: 1
+      podTemplateSpec:
+        spec:
+          containers:
+          - name: proxy
+            image: kong/kong-gateway:3.12.0.0
+---
+kind: GatewayClass
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: kong
+  namespace: kong-ingress
+spec:
+  controllerName: konghq.com/gateway-operator
+  parametersRef:
+    group: gateway-operator.konghq.com
+    kind: GatewayConfiguration
+    name: kong
+    namespace: kong-ingress
+---
+kind: Gateway
+apiVersion: gateway.networking.k8s.io/v1
+metadata:
+  name: kong
+  namespace: kong-ingress
+spec:
+  gatewayClassName: kong
+  listeners:
+  - name: http
+    protocol: HTTP
+    port: 80
+    allowedRoutes:
+      namespaces:
+        from: All

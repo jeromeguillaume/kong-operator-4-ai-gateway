@@ -1,0 +1,37 @@
+---
+apiVersion: konnect.konghq.com/v1alpha2
+kind: KonnectExtension
+metadata:
+  name: konnect-config
+  namespace: kong
+spec:
+  spec:
+  clientAuth:
+    certificateSecret:
+      provisioning: Automatic
+  konnect:
+    controlPlane:
+      ref:
+        type: konnectNamespacedRef
+        konnectNamespacedRef:
+          name: cp-kong-operator-hybrid-dp
+---
+apiVersion: gateway-operator.konghq.com/v1beta1
+kind: DataPlane
+metadata:
+  name: kong-kgo
+  namespace: kong
+spec:
+  extensions:
+  - kind: KonnectExtension
+    name: konnect-config
+    group: konnect.konghq.com
+  deployment:
+    podTemplateSpec:
+      spec:
+        containers:
+        - name: proxy
+          image: kong/kong-gateway:3.12.0.0
+          env:
+          - name: KONG_LOG_LEVEL
+            value: notice

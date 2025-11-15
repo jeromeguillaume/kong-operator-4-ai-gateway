@@ -1,0 +1,139 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: gemini
+  name: gemini
+  namespace: kong
+  #annotations:
+  #  konghq.com/plugins: ai-proxy-gemini
+spec:
+  ports:
+    - port: 80
+      name: http
+      protocol: TCP
+      targetPort: 1027
+  selector:
+    app: gemini
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: gemini
+  name: gemini
+  namespace: kong
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gemini
+  template:
+    metadata:
+      labels:
+        app: gemini
+    spec:
+      containers:
+        - image: kong/go-echo:latest
+          name: gemini
+          ports:
+            - containerPort: 1027 # HTTP
+---
+kind: KongService
+apiVersion: configuration.konghq.com/v1alpha1
+metadata:
+ name: gemini-svc
+ namespace: kong
+spec:
+ name: gemini-svc
+ host: gemini.kong
+ port: 80
+ path: /
+ controlPlaneRef:
+   type: konnectNamespacedRef # This indicates that an in cluster reference is used
+   konnectNamespacedRef:
+     name: cp-kong-operator-hybrid-dp # Reference to the KonnectGatewayControlPlane object
+---
+kind: KongRoute
+apiVersion: configuration.konghq.com/v1alpha1
+metadata:
+  name: gemini-route
+  namespace: kong
+spec:
+  name: gemini-route
+  protocols:
+  - http
+  paths:
+  - /gemini/api/v1
+  headers:
+    x-llm: ["gemini4"]
+  serviceRef:
+    type: namespacedRef
+    namespacedRef:
+      name: gemini-svc
+---
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: ai-proxy-gemini
+  namespace: kong
+plugin: ai-proxy-advanced
+config:
+  balancer:
+    retries: 5
+    hash_on_header: X-Kong-LLM-Request-ID
+    algorithm: round-robin
+    latency_strategy: tpot
+  model_name_header: true          
+  targets:
+    - model:
+        name: gemini-2.5-flash
+        options:
+          max_tokens: 4096
+          temperature: 1
+          input_cost:  0.30
+          output_cost: 2.50
+        provider: gemini
+      auth:
+        param_location: query
+        param_name: key
+        param_value: "***_TO_BE_REPLACED_***"
+      logging:
+        log_payloads: true
+        log_statistics: true
+      route_type: llm/v1/chat
+    - model:
+        name: gemini-2.5-pro
+        options:
+          max_tokens: 4096
+          temperature: 1
+          input_cost:  1.25
+          output_cost: 10.00
+        provider: gemini
+      auth:
+        param_location: query
+        param_name: key
+        param_value: "***_TO_BE_REPLACED_***"
+      logging:
+        log_payloads: true
+        log_statistics: true
+      route_type: llm/v1/chat
+---
+kind: KongPluginBinding
+apiVersion: configuration.konghq.com/v1alpha1
+metadata:
+ namespace: kong
+ name: ai-proxy-gemini
+spec:
+ pluginRef:
+   kind: KongPlugin
+   name: ai-proxy-gemini
+ targets:
+   routeRef:
+     group: configuration.konghq.com
+     kind: KongRoute
+     name: gemini-route
+ controlPlaneRef:
+   type: konnectNamespacedRef
+   konnectNamespacedRef:
+     name: cp-kong-operator-hybrid-dp
