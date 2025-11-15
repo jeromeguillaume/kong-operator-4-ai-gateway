@@ -1,6 +1,10 @@
 # Material for Kong Operator and Kong AI Gateway
 See below 2 templates for deploying the Kong AI Gateway. **There is no difference in terms of plugins capabilities between the two deployments**
 
+## Prerequisite: deploy the Kong Operator
+Only apply the `prerequisites` part in the [Kong Operator](https://developer.konghq.com/operator/konnect/crd/control-planes/hybrid/#prerequisites) documentation.
+Note: do not create the `KonnectAPIAuthConfiguration`: it's done later
+
 ## Template for Hybrid DP
 It delivers a read/write Control Plane in Konnect. The configuration is based on the following CRD Kinds:
 - KonnectGatewayControlPlane
