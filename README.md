@@ -48,7 +48,7 @@ It delivers a read only Control Plane in Konnect. Some restrictions appears like
 - HTTPRoute
 - KongClusterPlugin
 - KongPlugin
-- The binding of the plugin (for the Service or Route) is done with:
+  - The binding of the plugin (for the Service or Route) is done with:
 ```yaml
 annotations:
   konghq.com/plugins: ai-proxy-gemini
