@@ -6,7 +6,7 @@ The Namespaces are for:
 - Hybrid DP: `kong`
 - Ingress: `kong-ingress`
 
-## Prerequisite: deploy the Kong Operator
+## Prerequisite: deploy the Kong Operator and CRDs
 - Apply only the `prerequisites` part in the [Kong Operator](https://developer.konghq.com/operator/konnect/crd/control-planes/hybrid/#prerequisites) documentation.
   - Note: do not create the `KonnectAPIAuthConfiguration` because it's done later
 - Install the CRDs for [`Gateway API`](https://developer.konghq.com/operator/dataplanes/get-started/kic/install/#install-crds)
