@@ -19,6 +19,8 @@ It delivers a read/write Control Plane in Konnect. The configuration is based on
 - KongRoute
 - KongPlugin
 - KongPluginBinding
+- KongConsumer
+- All the CRDs are defined [here](https://developer.konghq.com/operator/reference/custom-resources/)
 
 The documentation is here: [Hybrid DP for Konnect](https://developer.konghq.com/operator/dataplanes/get-started/hybrid/install/)
 
@@ -63,6 +65,9 @@ It delivers a read only Control Plane in Konnect. Some restrictions appears like
 annotations:
   konghq.com/plugins: ai-proxy-gemini
 ```
+- KongConsumer
+- All the CRDs are defined [here](https://developer.konghq.com/operator/reference/custom-resources/)
+
 
 The documentation is here: [Ingress for Konnect](https://developer.konghq.com/operator/dataplanes/get-started/kic/create-gateway/#kong-konnect)
 
