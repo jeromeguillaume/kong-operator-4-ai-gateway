@@ -8,10 +8,11 @@ kind: Service
 metadata:
   labels:
     app: gemini
+  annotations:
+    konghq.com/plugins: ai-proxy-gemini
+    konghq.com/tags: "ai-manager-name: Gemini Gateway API, ai-manager-created"
   name: gemini
   namespace: app-ingress
-  #annotations:
-  #  konghq.com/plugins: ai-proxy-gemini
 spec:
   ports:
     - port: 80
@@ -51,6 +52,7 @@ metadata:
   namespace: app-ingress
   annotations:
     kubernetes.io/ingress.class: kong
+    konghq.com/tags: "ai-manager-plugin-for: ai-manager-name: Gemini Gateway API"
 plugin: ai-proxy-advanced
 config:
   balancer:
@@ -71,7 +73,7 @@ config:
       auth:
         param_location: query
         param_name: key
-        param_value: "***_TO_BE_REPLACED_***"
+        param_value: "***TO_BE_REPLACED***"
       logging:
         log_payloads: true
         log_statistics: true
@@ -87,7 +89,7 @@ config:
       auth:
         param_location: query
         param_name: key
-        param_value: "***_TO_BE_REPLACED_***"
+        param_value: "***TO_BE_REPLACED***"
       logging:
         log_payloads: true
         log_statistics: true
@@ -100,7 +102,7 @@ metadata:
   namespace: app-ingress
   annotations:
     konghq.com/strip-path: 'true'
-    #konghq.com/plugins: ai-proxy-gemini
+    konghq.com/tags: "ai-manager-route-for: ai-manager-name: Gemini Gateway API"
 spec:
   parentRefs:
     - group: gateway.networking.k8s.io

@@ -97,5 +97,10 @@ The material is here: [template-ingress](/template-ingress)
   }'
   ```
 
-## Konnect - API Gateway managed by the Kong Operator
-![Alt text](/images/1-konnect-gw-manager.png?raw=true "Konnect - API Gateway managed by the Kong Operator")
+## Konnect
+
+### API Gateway managed by the Kong Operator
+![Alt text](images/1-konnect-gw-manager.png?raw=true "Konnect - API Gateway managed by the Kong Operator")
+
+### AI Gateway managed by the Kong Operator
+![Alt text](images/2-konnect--ai-gw-manager.png?raw=true "Konnect - AI Gateway managed by the Kong Operator")
